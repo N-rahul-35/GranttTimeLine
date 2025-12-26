@@ -33,16 +33,20 @@ const GanttTimeline = () => {
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [showSubtaskModal, setShowSubtaskModal] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState(null);
+  const getToday = () => new Date().toISOString().split("T")[0];
+
   const [newTaskData, setNewTaskData] = useState({
     name: "",
-    start: "",
-    end: "",
+    start: getToday(),
+    end: getToday(),
   });
+
   const [newSubtaskData, setNewSubtaskData] = useState({
     name: "",
-    start: "",
-    end: "",
+    start: getToday(),
+    end: getToday(),
   });
+
   const timelineRef = useRef(null);
 
   // Update task or subtask dates
@@ -107,6 +111,11 @@ const GanttTimeline = () => {
 
   // Add a new task - opens modal
   const addTask = () => {
+    setNewTaskData({
+      name: "",
+      start: getToday(),
+      end: getToday(),
+    });
     setShowTaskModal(true);
   };
 
@@ -135,13 +144,19 @@ const GanttTimeline = () => {
       },
     ]);
 
-    setNewTaskData({ name: "", start: "", end: "" });
+    setNewTaskData({ name: "", start: getToday(), end: getToday() });
     setShowTaskModal(false);
   };
 
   // Add a new subtask with modal
   const addSubtask = (taskId) => {
     setSelectedTaskId(taskId);
+    setNewSubtaskData({
+      name: "",
+      start: getToday(),
+      end: getToday(),
+    });
+
     setShowSubtaskModal(true);
   };
 
@@ -192,7 +207,7 @@ const GanttTimeline = () => {
       })
     );
 
-    setNewSubtaskData({ name: "", start: "", end: "" });
+    setNewSubtaskData({ name: "", start: getToday(), end: getToday() });
     setShowSubtaskModal(false);
     setSelectedTaskId(null);
   };
